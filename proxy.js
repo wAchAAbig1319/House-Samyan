@@ -8,6 +8,9 @@ const PORT = process.env.PORT || 3000;
 
 // เสิร์ฟไฟล์ static จาก path เดียวกับ proxy.js
 app.use(express.static(__dirname));
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
 app.use(express.json());
 
 // Middleware สำหรับ CORS และ log
