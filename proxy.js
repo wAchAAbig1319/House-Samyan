@@ -3,7 +3,8 @@ const express = require("express");
 const path = require("path");
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
+
 
 // เสิร์ฟไฟล์ static จาก path เดียวกับ proxy.js
 app.use(express.static(__dirname));
