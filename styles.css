@@ -184,81 +184,69 @@ body {
   padding: 1rem;
 }
 
+/* ทำให้ movie-card เป็น flex แนวนอน */
 .movie-card {
-    background-color: white;
-    padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  background: #fff;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 800px;
+  margin: 16px auto;
+  gap: 16px;
+  position: relative; /* เพื่อให้จัดตำแหน่ง absolute ด้านในได้ */
 }
 
+/* รูปโปสเตอร์ */
 .movie-card img {
-    width: 50%;
-    border-radius: 5px;
-    height: auto;
-    max-height: 280px;
-    object-fit: cover;
+  width: 120px;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
 }
 
-.movie-card h3 {
-    font-size: 1rem;
-    margin: 10px 0 5px;
-}
-
-.movie-card .time {
-    margin: 5px 0;
-    background-color: #eee;
-    border-radius: 4px;
-    padding: 3px 8px;
-    font-size: 0.9rem;
-}
-
+/* กล่อง info ฝั่งขวา */
 .movie-info {
   flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 4px;
 }
 
-.movie-title {
-  font-size: 1rem;
-  font-weight: bold;
-  margin-bottom: 0.3rem;
-}
-
-.movie-subinfo {
-  font-size: 0.5rem;
-  color: #666;
-  margin-bottom: 0.2rem;
-}
-
+/* ส่วนปุ่ม showtimes: เอาไปวางข้างในฝั่งขวา */
 .showtimes {
+  position: absolute;
+  left: 150px; /* กะให้พอดีกับความกว้างโปสเตอร์ + padding */
+  bottom: 16px;
   display: flex;
   flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 1rem;
+  gap: 8px;
+  max-width: calc(100% - 160px); /* ปรับให้ไม่ล้นขวา */
 }
 
+/* ปุ่ม */
 .time-btn {
-  padding: 0.5rem 1rem;
-  border: none;
+  padding: 6px 12px;
   border-radius: 20px;
-  font-weight: bold;
-  font-size: 0.5rem;
-  cursor: default;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
 }
-
 .time-btn.past {
-  background-color: #ccc;
+  background: #ccc;
+  color: #444;
+}
+.time-btn.next {
+  background: orange;
+  color: white;
+}
+.time-btn.future {
+  background: black;
   color: white;
 }
 
-.time-btn.future {
-  background-color: #222;
-  color: white;
-}
 
 .time-btn.next {
   background-color: orange;
@@ -272,20 +260,31 @@ body {
   margin-top: 1rem;
 }
 
-.movie-card {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  background: #fff;
-  padding: 1rem;
-  margin: 1rem auto;
-  max-width: 500px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
 .movie-info {
   flex: 1;
   display: flex;
   flex-direction: column;
+}
+.movie-info {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ชื่อหนัง */
+.movie-title {
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+/* รายละเอียดย่อย */
+.movie-subinfo {
+  font-size: 12px;
+  color: #666;
+}
+#movieList {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 24px; /* ช่องว่างระหว่างการ์ดทั้งแนวนอนและแนวตั้ง */
 }
