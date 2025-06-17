@@ -49,7 +49,7 @@ h1 {
 
 .header-grid {
   display: flex;
-  height: 100px;
+  height: 175px;
   align-items: center;
   padding: 0 10px;
   gap: 10px;
@@ -58,14 +58,14 @@ h1 {
 /* ฝั่งซ้าย fix ขนาดตามรูป */
 .header-grid .left {
   flex: 0 0 auto;
-  height: 100px;
+  height: 175px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .header-grid .left img {
-  height: 100px;
+  height: 175px;
   width: auto;
   object-fit: contain;
 }
@@ -73,7 +73,7 @@ h1 {
 /* ฝั่งขวา ขยายเต็มที่ */
 .header-grid .right {
   flex: 1 1 auto;
-  height: 100px;
+  height: 175px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -82,7 +82,7 @@ h1 {
 
 .header-slider {
   width: 100%;
-  height: 200px;
+  height: 175px;
   overflow: hidden;
   position: relative;
 }
