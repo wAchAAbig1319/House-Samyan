@@ -34,48 +34,59 @@ function renderSchedule(data) {
   movieList.innerHTML = '';
 
   const now = new Date();
-
-  // รวมหนังทั้งหมดจากทุกโรง
-  const allSchedules = [];
+  const allMovies = [];
 
   data.forEach(theater => {
-    if (!theater.schedules || theater.schedules.length === 0) return;
+    if (!theater.schedules) return;
 
     theater.schedules.forEach(schedule => {
-      allSchedules.push({
-        ...schedule,
+      const movie = schedule.movie;
+      if (!movie) return;
+
+      allMovies.push({
+        movie: movie,
+        schedule: schedule,
         theater_name: theater.theater_name,
-        theater_icon: theater.theater_icon_web_path,
+        theater_icon: theater.theater_icon_web_path
       });
     });
   });
 
-  // รวมตาม movie_id เพื่อไม่ให้หนังเดียวกันซ้ำแยกบรรทัด
+  // รวมหนังตาม movie_id เพื่อไม่ให้หนังซ้ำ
   const movieMap = new Map();
 
-  allSchedules.forEach(schedule => {
-    const movie = schedule.movie;
-    if (!movieMap.has(movie.movie_id)) {
-      movieMap.set(movie.movie_id, {
+  allMovies.forEach(entry => {
+    const movie = entry.movie;
+    const movieId = movie.movie_id;
+    if (!movieMap.has(movieId)) {
+      movieMap.set(movieId, {
         movie: movie,
         schedules: [],
+        theater_name: entry.theater_name,
+        theater_icon: entry.theater_icon
       });
     }
-    movieMap.get(movie.movie_id).schedules.push(schedule);
+    movieMap.get(movieId).schedules.push(entry.schedule);
   });
 
-  // สร้าง card สำหรับหนังแต่ละเรื่อง
-  movieMap.forEach(({ movie, schedules }) => {
+  // แปลง Map เป็น Array แล้ว sort ตาม start_release_date
+const sortedMovies = Array.from(movieMap.values()).sort((a, b) => {
+  const dateA = new Date(a.movie.start_release_date);
+  const dateB = new Date(b.movie.start_release_date);
+  return dateB - dateA; // เรียงจากล่าสุดไปเก่าสุด
+});
+
+
+  // แสดงผล
+  sortedMovies.forEach(({ movie, schedules, theater_name, theater_icon }) => {
     const card = document.createElement('div');
     card.className = 'movie-card';
 
-    // Movie Poster
     const image = document.createElement('img');
     image.src = movie.poster_web_path || 'default-image.png';
     image.alt = movie.title;
     card.appendChild(image);
 
-    // Info Container
     const info = document.createElement('div');
     info.className = 'movie-info';
 
@@ -95,13 +106,17 @@ function renderSchedule(data) {
     duration.className = 'movie-subinfo';
     duration.textContent = formatDuration(movie.show_time);
 
+    const releaseDate = document.createElement('div');
+    releaseDate.className = 'movie-subinfo';
+    releaseDate.textContent = `เริ่มฉาย: ${movie.start_release_date.split(' ')[0]}`;
+
     info.appendChild(title);
     info.appendChild(language);
     info.appendChild(rating);
     info.appendChild(duration);
+    info.appendChild(releaseDate);
     card.appendChild(info);
 
-    // Showtimes
     const showtimesContainer = document.createElement('div');
     showtimesContainer.className = 'showtimes';
 
@@ -139,6 +154,7 @@ function renderSchedule(data) {
     movieList.appendChild(card);
   });
 }
+
 
 function formatLanguage(sound) {
   if (!sound) return '[-]';
