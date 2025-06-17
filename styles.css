@@ -197,6 +197,7 @@ body {
   margin: 16px auto;
   gap: 16px;
   position: relative; /* เพื่อให้จัดตำแหน่ง absolute ด้านในได้ */
+  padding-bottom: 100px;
 }
 
 /* รูปโปสเตอร์ */
@@ -218,11 +219,11 @@ body {
 /* ส่วนปุ่ม showtimes: เอาไปวางข้างในฝั่งขวา */
 .showtimes {
   position: absolute;
-  left: 150px; /* กะให้พอดีกับความกว้างโปสเตอร์ + padding */
+  left: 4px; /* กะให้พอดีกับความกว้างโปสเตอร์ + padding */
   bottom: 16px;
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 0.25rem;
   max-width: calc(100% - 160px); /* ปรับให้ไม่ล้นขวา */
 }
 
@@ -257,8 +258,8 @@ body {
 }
 .showtimes {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
+ grid-template-columns: repeat(4, 1fr);
+   gap: 0.25rem;
   margin-top: 1rem;
 }
 
