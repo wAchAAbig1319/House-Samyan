@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const searchDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-  fetchSchedule(searchDate, 'th');
+  fetchSchedule('2025-6-19', 'th');
 });
 
 function fetchSchedule(date, language) {
