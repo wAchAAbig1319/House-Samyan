@@ -108,13 +108,10 @@ const sortedMovies = Array.from(movieMap.values()).sort((a, b) => {
 
     const releaseDate = document.createElement('div');
     releaseDate.className = 'movie-subinfo';
-    releaseDate.textContent = `เริ่มฉาย: ${movie.start_release_date.split(' ')[0]}`;
-
     info.appendChild(title);
     info.appendChild(language);
     info.appendChild(rating);
     info.appendChild(duration);
-    info.appendChild(releaseDate);
     card.appendChild(info);
 
     const showtimesContainer = document.createElement('div');
