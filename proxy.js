@@ -47,7 +47,7 @@ app.post("/api/schedule", async (req, res) => {
       body,
     });
 
-    const text = await response.text(); // ⚠️ ไม่ใช้ .json() ทันที เพื่อดู error จากฝั่งโน้น
+    const text = await response.text(); //⚠️ ไม่ใช้ .json() ทันที เพื่อดู error จากฝั่งโน้น
     console.log("📥 Response from remote API:", response.status, text);
 
     if (!response.ok) {
@@ -66,4 +66,33 @@ app.post("/api/schedule", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`✅ Server running at http://localhost:${PORT}`);
   console.log(`👉 Open http://localhost:${PORT}/test.html`);
+});
+// เพิ่มใต้ endpoint /api/schedule
+app.post("/api/banner", async (req, res) => {
+  try {
+    const body = new URLSearchParams({
+      language: "th"
+    });
+
+    const response = await fetch("https://www.housesamyan.com/houseapi/banner/getall", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "Authorization": "Basic SG91c2VWc1NtYXJ0Q2xpY2s6"
+      },
+      body
+    });
+
+    const text = await response.text();
+    console.log("📥 Banner API Response:", response.status, text);
+
+    if (!response.ok) {
+      return res.status(500).json({ error: "Remote banner API error", response: text });
+    }
+
+    res.send(text);
+  } catch (err) {
+    console.error("Banner proxy error:", err);
+    res.status(500).json({ error: "Banner proxy error", detail: err.message });
+  }
 });

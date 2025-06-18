@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   const searchDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-  fetchSchedule('2025-6-19', 'th');
+  fetchSchedule(searchDate, 'th');
 });
 
 function fetchSchedule(date, language) {
@@ -226,6 +226,63 @@ function formatDuration(minutesStr) {
   return `${minutes} MINS (${hrs}:${mins.toString().padStart(2, '0')} HRS)`;
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+  const searchDate = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+  fetchSchedule(searchDate, 'th');
+  fetchBanner(); // ✅ เพิ่มฟังก์ชันโหลดแบนเนอร์
+});
 
+function fetchBanner() {
+  fetch('/api/banner', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({}) // ไม่ต้องส่งอะไร เพราะ server จะส่ง language="th" ให้อยู่แล้ว
+  })
+    .then(response => {
+      if (!response.ok) throw new Error('Failed to fetch banner');
+      return response.json();
+    })
+    .then(data => {
+      console.log('🖼️ Banner data:', data);
+      renderBanners(data.data || []); // หาก key เป็น data
+    })
+    .catch(err => {
+      console.error('💥 Banner error:', err);
+    });
+}
+
+function renderBanners(banners) {
+  const slideTrack = document.querySelector('.slide-track');
+  if (!slideTrack) return;
+
+  slideTrack.innerHTML = ''; // เคลียร์ของเก่า
+
+  banners.forEach((banner, index) => {
+    const a = document.createElement('a');
+    a.href = banner.banner_link_url || '#';
+    a.target = '_blank';
+
+    const img = document.createElement('img');
+    img.src = banner.image_web_path;
+    img.alt = banner.banner_title || 'Banner';
+    img.className = 'slide-img';
+    if (index === 0) img.classList.add('active'); // รูปแรก active
+
+    a.appendChild(img);
+    slideTrack.appendChild(a);
+  });
+
+  // เริ่ม slide ทุก 10 วินาที
+  let current = 0;
+  const slides = document.querySelectorAll('.slide-img');
+
+  setInterval(() => {
+    slides[current].classList.remove('active');
+    current = (current + 1) % slides.length;
+    slides[current].classList.add('active');
+  }, 10000); // 10,000 ms = 10 วิ
+}
 
 
